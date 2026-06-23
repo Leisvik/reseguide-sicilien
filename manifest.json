@@ -1,0 +1,12 @@
+{
+  "name": "Sällskapsresan — Sicilien",
+  "short_name": "Sicilien",
+  "description": "Reseguide för Noto och Cefalù, Sicilien",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#F5F5F7",
+  "theme_color": "#ffffff",
+  "icons": [
+    { "src": "favicon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any maskable" }
+  ]
+}
