@@ -385,6 +385,76 @@
     @keyframes ptr-spin { to { transform: rotate(360deg); } }
     #ptr-indicator.ptr-loading svg { animation: ptr-spin 0.8s linear infinite; }
 
+    /* ── BOOKING CARDS ── */
+    .resa-section-title {
+      font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; color: var(--text-3); margin: 28px 0 12px;
+    }
+    .resa-timeline {
+      background: var(--surface); border-radius: var(--r);
+      box-shadow: var(--shadow-sm); padding: 18px 20px; margin-bottom: 24px;
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .resa-tl-item {
+      display: grid; grid-template-columns: 52px 22px 1fr;
+      align-items: flex-start; gap: 0; position: relative;
+    }
+    .resa-tl-item:not(:last-child)::after {
+      content: ''; position: absolute; left: 62px; top: 24px;
+      width: 2px; height: calc(100% - 8px);
+      background: var(--border);
+    }
+    .resa-tl-date {
+      font-size: 0.75rem; font-weight: 700; color: var(--accent);
+      padding-top: 4px; text-align: right; padding-right: 14px;
+    }
+    .resa-tl-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent); margin-top: 6px; flex-shrink: 0;
+    }
+    .resa-tl-text {
+      font-size: 0.85rem; color: var(--text); padding: 2px 0 18px 12px; line-height: 1.5;
+    }
+    .resa-tl-item:last-child .resa-tl-text { padding-bottom: 0; }
+    .booking-card {
+      background: var(--surface); border-radius: var(--r);
+      box-shadow: var(--shadow-sm); margin-bottom: 14px; overflow: hidden;
+    }
+    .booking-header {
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px 18px; border-bottom: 1px solid var(--border);
+    }
+    .booking-icon {
+      font-size: 1.6rem; width: 48px; height: 48px; border-radius: 12px;
+      background: var(--bg); display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .booking-title { font-size: 0.97rem; font-weight: 700; letter-spacing: -0.1px; }
+    .booking-subtitle { font-size: 0.78rem; color: var(--text-2); margin-top: 2px; }
+    .booking-rows { padding: 14px 18px; display: flex; flex-direction: column; gap: 9px; }
+    .booking-row { display: flex; gap: 10px; font-size: 0.84rem; }
+    .booking-label {
+      color: var(--text-3); font-size: 0.71rem; text-transform: uppercase;
+      letter-spacing: 0.5px; flex-shrink: 0; width: 96px; padding-top: 2px;
+    }
+    .booking-value { color: var(--text); font-weight: 500; flex: 1; line-height: 1.45; }
+    .booking-ref {
+      font-family: 'SF Mono', 'Menlo', monospace;
+      background: var(--bg); padding: 2px 8px;
+      border-radius: 6px; font-size: 0.82rem; color: var(--text-2); letter-spacing: 1px;
+    }
+    .booking-alert {
+      background: #FFF9EE; border-left: 3px solid #f5a623;
+      border-radius: 0 0 var(--r) var(--r);
+      padding: 12px 18px; font-size: 0.82rem; color: #5a4000; line-height: 1.5;
+    }
+    .booking-alert strong { display: block; margin-bottom: 3px; color: #7a5500; }
+    .booking-cancel {
+      background: #F0F8F0; border-radius: 0 0 var(--r) var(--r);
+      padding: 9px 18px; font-size: 0.78rem; color: #2d6a20; font-weight: 600;
+    }
+    .booking-cancel::before { content: '✓ '; }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 540px) {
       .card-grid { grid-template-columns: 1fr; }
@@ -437,6 +507,7 @@
   <button class="nav-btn" onclick="showCat('strand', this)" title="Stränder"><span class="nav-icon">🏖</span></button>
   <button class="nav-btn" onclick="showCat('utflykt', this)" title="Utflykter"><span class="nav-icon">🚗</span></button>
   <button class="nav-btn" onclick="showCat('mat', this)" title="Siciliansk mat"><span class="nav-icon">🍋</span></button>
+  <button class="nav-btn" onclick="showCat('resinfo', this)" title="Reseinfo"><span class="nav-icon">✈️</span></button>
 </nav>
 
 <div class="container">
@@ -1472,6 +1543,234 @@
     </div>
   </div>
 
+  <!-- RESEINFO (delas av båda platser) -->
+  <div id="resinfo" class="section">
+    <div class="section-header">
+      <h2>✈️ Reseinfo</h2>
+      <p>Flyg, hyrbil och boende</p>
+    </div>
+
+    <!-- Resöversikt -->
+    <div class="resa-timeline">
+      <div class="resa-tl-item">
+        <div class="resa-tl-date">1 jul</div>
+        <div class="resa-tl-dot"></div>
+        <div class="resa-tl-text">Flyg till Catania · Hämta AVIS-bilen kl 21:00 · Incheckning Villa Landolina, Noto</div>
+      </div>
+      <div class="resa-tl-item">
+        <div class="resa-tl-date">8 jul</div>
+        <div class="resa-tl-dot"></div>
+        <div class="resa-tl-text">Utcheckning Noto kl 10:30 · Köra till Cefalù · Incheckning Nooria kl 15:30–19:30</div>
+      </div>
+      <div class="resa-tl-item">
+        <div class="resa-tl-date">15 jul</div>
+        <div class="resa-tl-dot"></div>
+        <div class="resa-tl-text">Utcheckning kl 10:00 · Lämna bilen Palermo flygplats kl 09:00 · Flyg D83749 avgår kl 10:55</div>
+      </div>
+    </div>
+
+    <div class="resa-section-title">✈️ Flyg</div>
+
+    <div class="booking-card">
+      <div class="booking-header">
+        <div class="booking-icon">✈️</div>
+        <div>
+          <div class="booking-title">Utresa — 1 juli</div>
+          <div class="booking-subtitle">Norwegian · Bokning YKESHX</div>
+        </div>
+      </div>
+      <div class="booking-rows">
+        <div class="booking-row">
+          <div class="booking-label">Bokning</div>
+          <div class="booking-value"><span class="booking-ref">YKESHX</span></div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Resenärer</div>
+          <div class="booking-value">Jonas Patrik Leisvik · Anna Christina Leisvik</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Destination</div>
+          <div class="booking-value">Catania (ankomst ca kl 21:00 — se biljetten för exakta tider)</div>
+        </div>
+      </div>
+      <div class="booking-alert">
+        <strong>ℹ️ Detaljer saknas i den uppladdade filen</strong>
+        Biljetten var ett bifogat dokument som inte gick att läsa. Se YKESHX i Norwegian-appen eller på norwegian.com.
+      </div>
+    </div>
+
+    <div class="booking-card">
+      <div class="booking-header">
+        <div class="booking-icon">✈️</div>
+        <div>
+          <div class="booking-title">Hemresa — 15 juli</div>
+          <div class="booking-subtitle">Norwegian D83749 · Bokning YKFZOB</div>
+        </div>
+      </div>
+      <div class="booking-rows">
+        <div class="booking-row">
+          <div class="booking-label">Rutt</div>
+          <div class="booking-value">Palermo Punta Raisi (PMO) → Köpenhamn Kastrup (CPH) Terminal 3</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Tid</div>
+          <div class="booking-value">Avgång 10:55 · Ankomst 13:50 · 2h55m</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Jonas</div>
+          <div class="booking-value">Plats 19C</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Lisa</div>
+          <div class="booking-value">Plats 19D</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Bokning</div>
+          <div class="booking-value"><span class="booking-ref">YKFZOB</span></div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Bagage</div>
+          <div class="booking-value">1 incheckat bagage + handbagage ingår (LOWFARE+)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="resa-section-title">🚗 Hyrbil</div>
+
+    <div class="booking-card">
+      <div class="booking-header">
+        <div class="booking-icon">🚗</div>
+        <div>
+          <div class="booking-title">AVIS — Fiat 500</div>
+          <div class="booking-subtitle">via CarTrawler / Norwegian · Betalt 10 876 kr</div>
+        </div>
+      </div>
+      <div class="booking-rows">
+        <div class="booking-row">
+          <div class="booking-label">Hämtas</div>
+          <div class="booking-value">Catania Fontanarossa · 1 juli kl 21:00</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Tel hämtning</div>
+          <div class="booking-value">095 340 500</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Lämnas</div>
+          <div class="booking-value">Palermo Punta Raisi · 15 juli kl 09:00</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Tel lämning</div>
+          <div class="booking-value">091 591 684</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Bokningsref</div>
+          <div class="booking-value"><span class="booking-ref">IT881838750</span></div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Bil</div>
+          <div class="booking-value">Fiat 500 · 4 pers · manuell · AC · 3 dörrar</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Bränsle</div>
+          <div class="booking-value">Full tank vid hämtning — lämnas full</div>
+        </div>
+      </div>
+      <div class="booking-alert">
+        <strong>⚠️ Ta med kreditkort med €1 600 i utrymme</strong>
+        AVIS kräver ett kreditkort i förarens namn för depositionen (€1 600 självrisk). Betalkort och kontanter godkänns ej för depositionen.
+      </div>
+    </div>
+
+    <div class="resa-section-title">🏨 Boende</div>
+
+    <div class="booking-card">
+      <div class="booking-header">
+        <div class="booking-icon">🏛</div>
+        <div>
+          <div class="booking-title">Villa Landolina</div>
+          <div class="booking-subtitle">Noto · 1–8 juli · 7 nätter</div>
+        </div>
+      </div>
+      <div class="booking-rows">
+        <div class="booking-row">
+          <div class="booking-label">Adress</div>
+          <div class="booking-value">Contrada Zupparda, Noto SR 96017</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Incheckning</div>
+          <div class="booking-value">1 juli från kl 15:00 (senast 23:00)</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Utcheckning</div>
+          <div class="booking-value">8 juli kl 10:30</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Rum</div>
+          <div class="booking-value">Classic dubbelrum</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Pris</div>
+          <div class="booking-value">€1 191 betalas på plats · €3/pers/natt stadsskatt (max 6 nätter)</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Bokningsref</div>
+          <div class="booking-value"><span class="booking-ref">72075568600500</span></div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Telefon</div>
+          <div class="booking-value">+39 389 197 5016</div>
+        </div>
+      </div>
+      <div class="booking-cancel">Fri avbokning t.o.m. 30 juni 2026 kl 23:59</div>
+    </div>
+
+    <div class="booking-card">
+      <div class="booking-header">
+        <div class="booking-icon">⛵</div>
+        <div>
+          <div class="booking-title">Nooria Sicilian Charme Rooms</div>
+          <div class="booking-subtitle">Cefalù · 8–15 juli · 7 nätter</div>
+        </div>
+      </div>
+      <div class="booking-rows">
+        <div class="booking-row">
+          <div class="booking-label">Adress</div>
+          <div class="booking-value">Via Generale Prestisimone 2, Cefalù PA 90015</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Incheckning</div>
+          <div class="booking-value">8 juli kl 15:30–19:30 ⚠️</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Utcheckning</div>
+          <div class="booking-value">15 juli kl 10:00</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Rum</div>
+          <div class="booking-value">Deluxe-rum</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Pris</div>
+          <div class="booking-value">16 882 kr totalt · 16 662 kr betalt · 220 kr betalas på plats · €2/pers/natt stadsskatt (max 5 nätter)</div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Bokningsref</div>
+          <div class="booking-value"><span class="booking-ref">72075569085194</span></div>
+        </div>
+        <div class="booking-row">
+          <div class="booking-label">Telefon</div>
+          <div class="booking-value">+39 370 127 0478</div>
+        </div>
+      </div>
+      <div class="booking-alert">
+        <strong>⚠️ Ingen reception — värden möter er</strong>
+        Incheckningsinstruktioner skickas senast 72h före ankomst. Ni MÅSTE checka in mellan 15:30 och 19:30. Kontakta värden om ni är försenade.
+      </div>
+      <div class="booking-cancel">Fri avbokning t.o.m. 1 juli 2026 kl 18:30</div>
+    </div>
+
+  </div>
+
 </div><!-- /container -->
 
 <script>
@@ -1501,7 +1800,8 @@
 
   function updateSection() {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    const el = document.getElementById(activeLoc + '-' + activeCat);
+    const id = activeCat === 'resinfo' ? 'resinfo' : activeLoc + '-' + activeCat;
+    const el = document.getElementById(id);
     if (el) el.classList.add('active');
   }
 
