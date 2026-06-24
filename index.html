@@ -313,9 +313,33 @@
       background: var(--surface); border-radius: var(--r);
       box-shadow: var(--shadow-sm); margin-bottom: 24px; overflow: hidden;
     }
+    .weather-bar {
+      display: flex; align-items: center; gap: 10px;
+      padding: 11px 16px; cursor: pointer;
+      user-select: none; -webkit-user-select: none;
+    }
+    .weather-bar:active { background: var(--bg); }
+    .weather-bar-icon { font-size: 1.5rem; line-height: 1; flex-shrink: 0; }
+    .weather-bar-temp { font-size: 1.1rem; font-weight: 700; color: var(--text); letter-spacing: -0.5px; flex-shrink: 0; }
+    .weather-bar-info { flex: 1; min-width: 0; }
+    .weather-bar-desc { font-size: 0.76rem; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .weather-bar-loc { font-size: 0.66rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 1px; }
+    .weather-bar-minmax { font-size: 0.76rem; font-weight: 600; color: var(--text-2); flex-shrink: 0; }
+    .weather-bar-chevron {
+      color: var(--text-3); flex-shrink: 0; margin-left: 4px;
+      display: flex; align-items: center;
+      transition: transform 0.25s ease;
+    }
+    .weather-widget.wx-open .weather-bar-chevron { transform: rotate(180deg); }
+    .weather-expanded {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.32s ease;
+    }
+    .weather-widget.wx-open .weather-expanded { max-height: 520px; }
     .weather-main {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 22px 16px; gap: 12px;
+      padding: 16px 22px 14px; gap: 12px;
+      border-top: 1px solid var(--border);
     }
     .weather-left { display: flex; align-items: center; gap: 14px; }
     .weather-icon { font-size: 3.2rem; line-height: 1; }
@@ -340,8 +364,8 @@
     .weather-forecast-temp { font-size: 0.82rem; font-weight: 600; color: var(--text); }
     .weather-forecast-temp span { color: var(--text-3); font-weight: 400; }
     .weather-offline { font-size: 0.78rem; color: var(--text-3); padding: 6px 22px 14px; }
-    .weather-error { padding: 20px 22px; font-size: 0.85rem; color: var(--text-2); }
-    .weather-loading { padding: 20px 22px; font-size: 0.85rem; color: var(--text-3); }
+    .weather-error { padding: 11px 16px; font-size: 0.85rem; color: var(--text-2); }
+    .weather-loading { padding: 11px 16px; font-size: 0.85rem; color: var(--text-3); }
 
     /* ── LEISVIK RATING ── */
     .leisvik-rating {
@@ -1862,8 +1886,13 @@
   };
   const DAYS = ['Sön','Mån','Tis','Ons','Tor','Fre','Lör'];
 
+  function toggleWeather() {
+    document.getElementById('weather-widget').classList.toggle('wx-open');
+  }
+
   function renderWeather(d, ageMin, locName) {
     const el = document.getElementById('weather-widget');
+    const wasOpen = el.classList.contains('wx-open');
     const c = d.current;
     const day = d.daily;
     const code = c.weathercode;
@@ -1874,6 +1903,10 @@
     const offlineBanner = ageMin ? `<div class="weather-offline">📵 Offline · Sparat väder från ${ageMin} min sedan</div>` : '';
     const now = new Date();
     const timeStr = now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
+    const temp = Math.round(c.temperature_2m);
+    const maxT = Math.round(day.temperature_2m_max[0]);
+    const minT = Math.round(day.temperature_2m_min[0]);
+    const chevron = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
 
     let forecastHTML = '';
     for (let i = 1; i <= 3; i++) {
@@ -1885,27 +1918,40 @@
       </div>`;
     }
     el.innerHTML = `
-      <div class="weather-main">
-        <div class="weather-left">
-          <div class="weather-icon">${icon}</div>
-          <div>
-            <div class="weather-temp">${Math.round(c.temperature_2m)}<sup>°C</sup></div>
-            <div class="weather-desc">${desc} · Känns som ${Math.round(c.apparent_temperature)}°</div>
+      <div class="weather-bar" onclick="toggleWeather()">
+        <span class="weather-bar-icon">${icon}</span>
+        <span class="weather-bar-temp">${temp}°C</span>
+        <div class="weather-bar-info">
+          <div class="weather-bar-desc">${desc} · Känns som ${Math.round(c.apparent_temperature)}°</div>
+          <div class="weather-bar-loc">${locName} · ${timeStr}</div>
+        </div>
+        <div class="weather-bar-minmax">↑${maxT}° ↓${minT}°</div>
+        <div class="weather-bar-chevron">${chevron}</div>
+      </div>
+      <div class="weather-expanded">
+        <div class="weather-main">
+          <div class="weather-left">
+            <div class="weather-icon">${icon}</div>
+            <div>
+              <div class="weather-temp">${temp}<sup>°C</sup></div>
+              <div class="weather-desc">${desc} · Känns som ${Math.round(c.apparent_temperature)}°</div>
+            </div>
+          </div>
+          <div class="weather-right">
+            <div class="weather-minmax">↑ ${maxT}° <span>/</span> ↓ ${minT}°</div>
+            <div class="weather-location">${locName} · ${timeStr}</div>
           </div>
         </div>
-        <div class="weather-right">
-          <div class="weather-minmax">↑ ${Math.round(day.temperature_2m_max[0])}° <span>/</span> ↓ ${Math.round(day.temperature_2m_min[0])}°</div>
-          <div class="weather-location">${locName} · ${timeStr}</div>
+        <div class="weather-details">
+          <div class="weather-detail"><span class="weather-detail-icon">💨</span><div class="weather-detail-val">${Math.round(c.windspeed_10m)} km/h</div><div class="weather-detail-lbl">Vind</div></div>
+          <div class="weather-detail"><span class="weather-detail-icon">💧</span><div class="weather-detail-val">${c.relativehumidity_2m}%</div><div class="weather-detail-lbl">Luftfukt.</div></div>
+          <div class="weather-detail"><span class="weather-detail-icon">☔</span><div class="weather-detail-val">${day.precipitation_probability_max[0]}%</div><div class="weather-detail-lbl">Regn</div></div>
+          <div class="weather-detail"><span class="weather-detail-icon">🕶️</span><div class="weather-detail-val">${uvLabel}</div><div class="weather-detail-lbl">UV-index</div></div>
         </div>
-      </div>
-      <div class="weather-details">
-        <div class="weather-detail"><span class="weather-detail-icon">💨</span><div class="weather-detail-val">${Math.round(c.windspeed_10m)} km/h</div><div class="weather-detail-lbl">Vind</div></div>
-        <div class="weather-detail"><span class="weather-detail-icon">💧</span><div class="weather-detail-val">${c.relativehumidity_2m}%</div><div class="weather-detail-lbl">Luftfukt.</div></div>
-        <div class="weather-detail"><span class="weather-detail-icon">☔</span><div class="weather-detail-val">${day.precipitation_probability_max[0]}%</div><div class="weather-detail-lbl">Regn</div></div>
-        <div class="weather-detail"><span class="weather-detail-icon">🕶️</span><div class="weather-detail-val">${uvLabel}</div><div class="weather-detail-lbl">UV-index</div></div>
-      </div>
-      <div class="weather-forecast">${forecastHTML}</div>
-      ${offlineBanner}`;
+        <div class="weather-forecast">${forecastHTML}</div>
+        ${offlineBanner}
+      </div>`;
+    if (wasOpen) el.classList.add('wx-open');
   }
 
   async function loadWeather(loc) {
