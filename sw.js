@@ -2,7 +2,7 @@ const CACHE = 'la-sicilia-v1';
 const ASSETS = [
   './',
   './index.html',
-  './hero.jpg',
+  './J_L_in_Heart.jpg',
   './favicon.svg',
   './manifest.json',
 ];
